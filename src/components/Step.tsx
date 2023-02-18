@@ -1,26 +1,29 @@
 import React from 'react';
-import { StyledStep, StyledStepCircle } from './styled/Step.styled';
+import { StyledStep, StyledStepText } from './styled/Step.styled';
 
-interface Props {
+interface StepProps {
     step: number,
-    current?: number,
-    title: string
+    current: number,
+    title: string,
+    end?: boolean
 }
 const Step = ({
     step,
     current,
-    title
-}: Props) => {
+    title,
+    end = false
+}: StepProps) => {
     return (
         <StyledStep>
-            <StyledStepCircle className={`circle${current === step} ? ' current' :''`}>
+            <div className={`circle ${((current === step) || (current > step && end)) ? 'current': ''}`}>
                 {step}
-            </StyledStepCircle>
-            <div className="text">
+            </div>
+            <StyledStepText>
                 <div className="subtitle">Step {step}</div>
                 <div className="title">{title}</div>
-            </div>
+            </StyledStepText>
         </StyledStep>
     )
 }
 export default Step;
+

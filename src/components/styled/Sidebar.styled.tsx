@@ -1,15 +1,26 @@
 import styled from 'styled-components'
+import bp from './bp.styled';
 
-export const StyledSidebar = styled.div`
-    
+export const StyledSidebar = styled.aside`
     background-color: var(--purplish-blue);
-    padding:calc(var(--unit)*8) calc(var(--unit)*8);
+    background-image:url('./images/bg-sidebar-mobile.svg');
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:cover;
+    padding:calc(var(--unit)*8) calc(var(--unit)*8) calc(var(--unit)*26);
+    margin:0 -1rem;
     display:flex;
     flex-direction:row;
-    @media screen and (min-width: 768px) {
+    justify-content:center;
+    color:var(--white);
+    
+    @media ${bp.md} {
+        background-image:url('./images/bg-sidebar-desktop.svg');
         flex-direction:column;
-        padding:calc(var(--unit)*10) calc(var(--unit)*8);
+        justify-content:flex-start;
+        padding:calc(var(--unit)*8) calc(var(--unit)*8);
         border-radius:calc(var(--unit)*2);
+        margin:0;
         max-width:272px;
         width:100%;
     }
