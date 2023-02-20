@@ -11,6 +11,7 @@ export const StyledButton = styled.button`
     color: var(--cool-gray);
     border:none;
     background-color:transparent;
+    min-width:122px;
     &:hover,
     &:focus {
         color:var(--marine-blue);
@@ -23,6 +24,14 @@ export const StyledButton = styled.button`
         color:var(--white);
         &:hover {
             background-color:var(--marine-blue-lighter);
+        }
+    }
+    &.primary-blue {
+        padding:0 16px;
+        background-color:var(--purplish-blue);
+        color:var(--white);
+        &:hover {
+            background-color:var(--purplish-blue-lighter);
         }
     }
     @media ${bp.md} {

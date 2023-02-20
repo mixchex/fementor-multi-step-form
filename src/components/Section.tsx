@@ -12,6 +12,6 @@ const Section = ({
     current,
     children
 }: Props) => {
-    return (step === current ? <StyledSection>{ children }</StyledSection>: null);
+    return (step === current ? <StyledSection className="section">{ children }</StyledSection>: null);
 }
 export default Section;

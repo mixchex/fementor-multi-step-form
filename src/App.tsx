@@ -95,10 +95,11 @@ function App() {
     phone: ''
   });
   const [valid, setValid] = useState<ValidProps>({
-    name: true,
-    email: true,
-    phone: true
+    name: false,
+    email: false,
+    phone: false
   });
+  const [validated, setValidated] = useState<boolean>(false);
   const [current, setCurrent] = useState<number>(1);
   const [data, setData] = useState<DataProps>({
     name: '',
@@ -112,6 +113,7 @@ function App() {
   });
   
   const nameValidator = value => {
+    setValidated(true);
     if (!value) {
       setValid(prev => ({
         ...prev,
@@ -135,6 +137,7 @@ function App() {
   };
 
   const emailValidator = value => {
+    setValidated(true);
     if (!value) {
       setValid(prev => ({
         ...prev,
@@ -169,6 +172,7 @@ function App() {
   };
 
   const phoneValidator = value => {
+    setValidated(true);
     if (!value) {
       setValid(prev => ({
         ...prev,
@@ -178,7 +182,7 @@ function App() {
         ...prev,
         phone: "Phone is required"
       }));
-    } else if (!new RegExp(/^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4}$/).test(value)) {
+    } else if (!new RegExp(/^\+1\s\d{3}\s\d{3}\s\d{3}$/).test(value)) {
       setValid(prev => ({
         ...prev,
         phone: false
@@ -201,13 +205,7 @@ function App() {
     }
   };
 
-  const validateForm = () => {
-    nameValidator(data.name);
-    emailValidator(data.email);
-    phoneValidator(data.phone);
-    return valid.name && valid.email && valid.phone;
-  }
-
+  
   
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
@@ -233,14 +231,21 @@ function App() {
   const handleNextClick = (e: MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     if (current == 1) {
       validateForm();
-     
-      //setCurrent(prev => prev + 1); 
-      
+      if (valid.name  && valid.email && valid.phone) {
+        setCurrent(prev => prev + 1);
+      }
     }
     else {
       setCurrent(prev => prev + 1);
     }
   }
+
+  const validateForm = () => {
+    nameValidator(data.name);
+    emailValidator(data.email);
+    phoneValidator(data.phone);
+  }
+
 
   const handlePlanChange = (e) => {
     setData(prev => ({
@@ -329,27 +334,29 @@ function App() {
                 value={data.name}
                 placeholder="e.g. Stephen King"
                 onChange={handleInputChange}
-                error={!valid.name}
+                error={(!valid.name && data.name != '')|| (!valid.name && validated)}
                 errorText={errors.name}
               />
               <Input
                 id="email"
                 name="email"
                 label="Email Address"
+                type="email"
                 value={data.email}
                 placeholder="e.g. stephenking@lorem.com"
                 onChange={handleInputChange}
-                error={!valid.email}
+                error={(!valid.email && data.email != '')|| (!valid.email && validated)}
                 errorText={errors.email}
               />
               <Input
                 id="phone"
                 name="phone"
                 label="Phone Number"
+                type="tel"
                 value={data.phone}
                 placeholder="e.g. +1 234 567 890"
                 onChange={handleInputChange}
-                error={!valid.phone}
+                error={(!valid.phone && data.phone != '') || (!valid.phone && validated)}
                 errorText={errors.phone}
               />
             </Section>
@@ -535,7 +542,7 @@ function App() {
                 {current === 4 &&
                   <Button
                     onClick={handleNextClick}
-                    variant="primary"
+                    variant="primary-blue"
                     type="submit"
                   >Confirm</Button>
                 }
