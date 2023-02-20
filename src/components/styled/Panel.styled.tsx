@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import bp from './bp.styled';
 
-export const Panel = styled.div`
+export const StyledPanel = styled.div`
     width:100%;
     max-width: 940px;
     padding:0 calc(var(--unit)*4);

@@ -6,6 +6,10 @@ export const StyledInput = styled.div`
     flex-direction:column;
     margin-bottom:16px;
 
+    & .errorText {
+        display:none;
+    }
+    
     & label {
         font-size:0.9rem;
         color:var(--marine-blue);
@@ -31,6 +35,20 @@ export const StyledInput = styled.div`
         }
         &:invalid {
             border-color:var(--strawberry-red);
+        }
+    }
+    &.error {
+        & input {
+            border-color:var(--strawberry-red);
+            &:hover,
+            &:focus {
+                border-color:var(--strawberry-red);
+            }
+        }
+        & .errorText {
+            color:var(--strawberry-red);
+            display:block;
+            font-size:0.9rem;
         }
     }
     & header {
