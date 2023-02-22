@@ -82,9 +82,9 @@ interface ErrorProps {
 }
 
 interface ValidProps {
-  name: boolean,
-  email: boolean,
-  phone: boolean
+  name: boolean | null,
+  email: boolean | null,
+  phone: boolean | null
 }
 
 function App() {
@@ -95,9 +95,9 @@ function App() {
     phone: ''
   });
   const [valid, setValid] = useState<ValidProps>({
-    name: false,
-    email: false,
-    phone: false
+    name: null,
+    email: null,
+    phone: null
   });
   const [validated, setValidated] = useState<boolean>(false);
   const [current, setCurrent] = useState<number>(1);
@@ -182,7 +182,7 @@ function App() {
         ...prev,
         phone: "Phone is required"
       }));
-    } else if (!new RegExp(/^\+1\s\d{3}\s\d{3}\s\d{3}$/).test(value)) {
+    } else if (!new RegExp(/^(\+1\s?)?(\d{3}[ -]?\d{3}[ -]?\d{4})$/).test(value)) {
       setValid(prev => ({
         ...prev,
         phone: false
@@ -205,22 +205,24 @@ function App() {
     }
   };
 
-  
-  
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
     switch (e.target.name) {
       case "email":
-        emailValidator(data.email);
+        console.log('validate email');
+        emailValidator(value);
         break;
       case "phone":
-        phoneValidator(data.phone);
+        console.log('validate pgone');
+        phoneValidator(value);
         break;
       default:
-        nameValidator(data.name);
+        console.log('validate name');
+        nameValidator(value);
    }
     setData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: value
     }))
   };
 
@@ -241,6 +243,12 @@ function App() {
   }
 
   const validateForm = () => {
+    console.log('validate form');
+    setValid({
+      name: true,
+      email: true,
+      phone: true
+    });
     nameValidator(data.name);
     emailValidator(data.email);
     phoneValidator(data.phone);
@@ -334,7 +342,7 @@ function App() {
                 value={data.name}
                 placeholder="e.g. Stephen King"
                 onChange={handleInputChange}
-                error={(!valid.name && data.name != '')|| (!valid.name && validated)}
+                error={valid.name === false}
                 errorText={errors.name}
               />
               <Input
@@ -345,7 +353,7 @@ function App() {
                 value={data.email}
                 placeholder="e.g. stephenking@lorem.com"
                 onChange={handleInputChange}
-                error={(!valid.email && data.email != '')|| (!valid.email && validated)}
+                error={valid.email === false}
                 errorText={errors.email}
               />
               <Input
@@ -356,7 +364,7 @@ function App() {
                 value={data.phone}
                 placeholder="e.g. +1 234 567 890"
                 onChange={handleInputChange}
-                error={(!valid.phone && data.phone != '') || (!valid.phone && validated)}
+                error={valid.phone === false}
                 errorText={errors.phone}
               />
             </Section>
